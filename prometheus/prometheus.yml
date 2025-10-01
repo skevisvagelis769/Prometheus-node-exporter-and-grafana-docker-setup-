@@ -19,6 +19,6 @@ scrape_configs:
     static_configs:
       - targets:
         - localhost:9090
-  - job_name: monitor_hardware # Change to whatever you like
+  - job_name: monitor_hardware 
     static_configs:
       - targets: ['172.30.0.4:9100']
