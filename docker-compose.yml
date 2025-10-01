@@ -1,0 +1,58 @@
+networks:
+  grafana_test_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/29
+          gateway: 172.30.0.1
+services:
+  grafana:
+    container_name: grafana_test_local
+    image: grafana/grafana
+    ports:
+    - "88:3000"
+    networks:
+      - grafana_test_network
+
+  prometheus:
+    container_name: prometheus_test_local
+    image: prom/prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - "./prometheus:/etc/prometheus"
+    restart: unless-stopped
+    networks:
+      grafana_test_network:
+        ipv4_address: 172.30.0.3
+
+  node_exporter:
+    container_name: node-exporter_local
+    image: prom/node-exporter
+    command:
+      - '--path.rootfs=/host'
+    ports:
+      - '9101:9100'
+    volumes:
+      - '/:/host:ro,rslave'
+    networks:
+      grafana_test_network:
+        ipv4_address: 172.30.0.4
+  loki:
+    image: grafana/loki
+    container_name: loki_test_local
+    ports:
+      - '3102:31000'
+    networks:
+      grafana_test_network:
+        ipv4_address: 172.30.0.5
+  promtail:
+    image: grafana/promtail
+    container_name: promtail_test_local
+    ports:
+      - '9081:9080'
+    volumes:
+      - '/var/log:/var/log'
+    networks:
+      grafana_test_network:
+        ipv4_address: 172.30.0.6
