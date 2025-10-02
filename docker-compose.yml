@@ -42,7 +42,7 @@ services:
     image: grafana/loki
     container_name: loki_test_local
     ports:
-      - '3102:31000'
+      - '3102:3100'
     networks:
       grafana_test_network:
         ipv4_address: 172.30.0.5
