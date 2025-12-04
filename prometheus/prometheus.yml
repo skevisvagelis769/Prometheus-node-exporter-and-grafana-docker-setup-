@@ -18,7 +18,13 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets:
-        - localhost:9090
+        - 0.0.0.0:9090
   - job_name: monitor_hardware 
     static_configs:
-      - targets: ['172.30.0.4:9100']
+      - targets: ['172.25.0.4:9100']
+  - job_name: monitor_hardware_gitlab 
+    static_configs:
+      - targets: ['192.168.1.32:9101']
+  - job_name: monitor_hardware_nginx
+    static_configs:
+      - targets: ['192.168.1.30:9101']
